@@ -187,10 +187,10 @@ document.addEventListener('DOMContentLoaded', () => {
         throw new Error(data.message || 'Login failed. Please check your credentials.');
       }
 
-      // Save token and display dashboard
+      // Save token and navigate to dedicated dashboard page
       localStorage.setItem(TOKEN_KEY, data.token);
       loginForm.reset();
-      showDashboard(data.user);
+      window.location.href = '/dashboard';
     } catch (error) {
       showAlert(error.message, 'error');
     } finally {
@@ -250,10 +250,10 @@ document.addEventListener('DOMContentLoaded', () => {
         throw new Error(data.message || 'Registration failed.');
       }
 
-      // Automatically sign in upon successful registration
+      // Automatically sign in & navigate to dedicated dashboard page
       localStorage.setItem(TOKEN_KEY, data.token);
       registerForm.reset();
-      showDashboard(data.user);
+      window.location.href = '/dashboard';
     } catch (error) {
       showAlert(error.message, 'error');
     } finally {
@@ -284,8 +284,8 @@ document.addEventListener('DOMContentLoaded', () => {
       });
 
       if (response.ok) {
-        const data = await response.json();
-        showDashboard(data.user);
+        // If already logged in, redirect straight to dashboard
+        window.location.href = '/dashboard';
       } else {
         localStorage.removeItem(TOKEN_KEY);
       }
